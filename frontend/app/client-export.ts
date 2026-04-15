@@ -247,12 +247,13 @@ export function buildClientDashboardHtml(data: ParserResponse, options: ExportOp
       min-height: 40px;
       padding: 0 16px;
       border-radius: 999px;
-      color: #fffaf1;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #ffffff !important;
+      background: linear-gradient(135deg, #a03f32, #5a241d);
       font-weight: 800;
       font-size: 12px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
+      text-decoration: none;
       box-shadow: 0 14px 32px rgba(180, 95, 42, 0.22);
     }
     .eyebrow {
@@ -543,7 +544,7 @@ export function buildClientDashboardHtml(data: ParserResponse, options: ExportOp
               <p class="subtle">Este archivo mantiene la exploración interactiva del estudio, pero no permite subir archivos FEL ni abrir otras secciones operativas.</p>
             </div>
             <div class="hero-actions">
-              <a class="pdf-link" href="./report.pdf" target="_blank" rel="noopener">Ver reporte PDF</a>
+              <a class="pdf-link" href="./report.pdf" target="_blank" rel="noopener">Report PDF</a>
               <div class="pill">Generado ${escapeHtml(payload.generatedAt)}</div>
             </div>
           </div>
