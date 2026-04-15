@@ -1,0 +1,164 @@
+:root {
+  --bg: #f5f8ff;
+  --surface: rgba(255, 255, 255, 0.9);
+  --surface-2: rgba(247, 249, 255, 0.92);
+  --line: rgba(20, 31, 56, 0.09);
+  --text: #16233b;
+  --muted: #5f6f8f;
+  --accent: #635bff;
+  --accent-2: #0a2540;
+  --shadow: 0 24px 80px rgba(99, 91, 255, 0.12);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(99, 91, 255, 0.16), transparent 28%),
+    radial-gradient(circle at top right, rgba(11, 92, 255, 0.1), transparent 24%),
+    linear-gradient(180deg, #fbfdff 0%, var(--bg) 100%);
+  font-family:
+    ui-sans-serif,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+a { color: inherit; text-decoration: none; }
+button, input { font: inherit; }
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(99, 91, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99, 91, 255, 0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.45), transparent 78%);
+}
+
+.page-shell {
+  width: 100%;
+}
+
+.app-layout {
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+}
+
+.control-drawer {
+  transform: translateX(-100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 240ms ease, opacity 240ms ease;
+  will-change: transform;
+}
+
+.control-drawer.open {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.control-drawer-right {
+  transform: translateX(100%);
+}
+
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  border: 0;
+  background: rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(3px);
+  z-index: 35;
+  cursor: pointer;
+}
+
+.control-input {
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid rgba(20, 31, 56, 0.12);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--text);
+  padding: 11px 13px;
+  outline: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.control-input:focus {
+  border-color: rgba(99, 91, 255, 0.45);
+  box-shadow:
+    0 0 0 4px rgba(99, 91, 255, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.chart-scroll {
+  overflow-x: hidden;
+  overflow-y: hidden;
+  padding-bottom: 6px;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  min-width: 0;
+  display: block;
+}
+
+.chart-canvas {
+  min-width: 0;
+  width: 100%;
+  display: block;
+}
+
+.mobile-value-cards {
+  display: none;
+}
+
+table {
+  border-spacing: 0;
+}
+
+button {
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease,
+    opacity 160ms ease;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(99, 91, 255, 0.12);
+}
+
+button:disabled {
+  box-shadow: none;
+}
+
+@media (max-width: 980px) {
+  .control-drawer {
+    width: min(440px, 100vw);
+  }
+}
+
+@media (max-width: 640px) {
+  .page-shell {
+    padding: 12px !important;
+  }
+
+  .control-drawer {
+    width: 100vw !important;
+    border-radius: 0 !important;
+  }
+
+  .desktop-values-table {
+    display: none;
+  }
+
+  .mobile-value-cards {
+    display: grid;
+  }
+}

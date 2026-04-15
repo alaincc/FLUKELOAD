@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fluke 3540 FC Load Calculation Viewer</title>
+    <link rel="stylesheet" href="./loadcalc-viewer.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <p class="eyebrow">Fluke 3540 FC</p>
+          <h1>Load Calculation Viewer</h1>
+          <p class="lede">Carga un CSV exportado desde <code>fel_inspect.py</code> y grafica corrientes, kW y frecuencia sin dependencias externas.</p>
+        </div>
+
+        <section class="panel">
+          <label class="field">
+            <span>CSV File</span>
+            <input id="file-input" type="file" accept=".csv,text/csv">
+          </label>
+
+          <div class="field">
+            <span>Sampling</span>
+            <input id="sample-step" type="range" min="1" max="300" value="30">
+            <div class="field-note">
+              <span>Every <strong id="sample-step-value">30</strong> rows</span>
+              <span>Lower = more detail</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <span>Presets</span>
+            <div class="preset-actions">
+              <button class="preset-button" data-preset="currents" type="button">Phase Currents</button>
+              <button class="preset-button" data-preset="power" type="button">kW</button>
+              <button class="preset-button" data-preset="frequency" type="button">Frequency</button>
+              <button class="preset-button" data-preset="references" type="button">References</button>
+            </div>
+          </div>
+
+          <label class="field">
+            <span>Search Series</span>
+            <input id="series-filter" type="search" placeholder="current, kw, frequency...">
+          </label>
+
+          <div class="field">
+            <span>Series</span>
+            <div id="series-list" class="series-list"></div>
+          </div>
+        </section>
+
+        <section class="panel stats-panel">
+          <h2>Dataset</h2>
+          <dl id="dataset-stats" class="stats-grid">
+            <div><dt>Status</dt><dd id="stat-status">Waiting for CSV</dd></div>
+            <div><dt>Rows Read</dt><dd id="stat-rows">0</dd></div>
+            <div><dt>Rows Plotted</dt><dd id="stat-sampled">0</dd></div>
+            <div><dt>Time Range</dt><dd id="stat-range">-</dd></div>
+          </dl>
+        </section>
+      </aside>
+
+      <main class="workspace">
+        <section class="hero panel">
+          <div>
+            <p class="eyebrow">Visualization</p>
+            <h2 id="chart-title">Load Study Overview</h2>
+            <p id="chart-subtitle" class="hero-copy">Select a CSV and choose the series you want to compare.</p>
+          </div>
+          <div class="hero-actions">
+            <button id="clear-selection" class="ghost-button" type="button">Clear Selection</button>
+          </div>
+        </section>
+
+        <section class="chart-panel panel">
+          <canvas id="chart-canvas" width="1400" height="700"></canvas>
+          <div id="tooltip" class="tooltip" hidden></div>
+        </section>
+
+        <section class="panel insights-panel">
+          <h2>Selected Series Summary</h2>
+          <div id="insights" class="insights-empty">No series selected yet.</div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./loadcalc-viewer.js"></script>
+  </body>
+</html>

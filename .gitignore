@@ -1,0 +1,31 @@
+# Dependencies and local environments
+node_modules/
+.venv/
+venv/
+.tools/
+
+# Build and cache output
+.next/
+dist/
+build/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+tsconfig.tsbuildinfo
+
+# Local OS/editor files
+.DS_Store
+.env
+.env.*
+
+# Generated project data and exports
+48274031/
+backend/data/client_exports/
+backend/data/github-pages/
+backend/data/saved_sessions/
+backend/tmp*/
+
+# Large local analysis files
+*.csv
