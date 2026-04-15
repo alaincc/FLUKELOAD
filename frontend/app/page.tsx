@@ -36,6 +36,84 @@ type ParserResponse = {
   rows: ParserRow[];
   series: Record<string, Array<number | null>>;
   saved_session?: SavedSession;
+  study_profile?: StudyProfile | null;
+};
+
+type StudyProfile = {
+  client?: {
+    name?: string;
+    address?:
+      | string
+      | {
+          street?: string;
+          city?: string;
+          state?: string;
+          postal_code?: string;
+          formatted?: string;
+        };
+  };
+  panel?: {
+    brand?: string;
+    panel_type?: string;
+    system?: {
+      voltage?: string;
+      phases?: number;
+      wires?: number;
+    };
+    capacity?: {
+      max_amperage?: number;
+      main_lug?: boolean;
+      installed_main_breaker?: {
+        amperage?: number;
+        series?: string;
+      };
+    };
+    identification?: {
+      catalog_number?: string;
+      serial_number?: string;
+      customer_marking?: string;
+      item_number?: string;
+      location?: string;
+      date?: string;
+    };
+    technical_specifications?: {
+      short_circuit_rating?: {
+        max?: string;
+        min_configuration?: string;
+      };
+      conductors?: {
+        temperature_ratings?: string[];
+        materials?: string[];
+      };
+    };
+    compliance?: {
+      nec_articles?: string[];
+      max_circuits_if_lighting_exceeds_10_percent?: number;
+      usage?: string[];
+    };
+  };
+  load_study?: {
+    device?: string;
+    type?: string;
+    duration?: {
+      total?: string;
+      start?: string;
+      end?: string;
+    };
+    asset?: string;
+    file_size_kb?: number;
+  };
+  observations?: {
+    panel_configuration?: string;
+    main_breaker_note?: string;
+    system_type?: string;
+    wiring?: {
+      type?: string;
+      conduit?: string;
+      phases_colors?: string[];
+      neutral_color?: string;
+    };
+  };
 };
 
 type SavedSession = {
@@ -211,11 +289,18 @@ export default function Page() {
   const combinedDateBounds = useMemo(() => getStudyDateBounds(visibleRows), [visibleRows]);
 
   function applyParsedData(parsed: ParserResponse, nextStatus: string) {
+    const profileClient = getStudyProfileClient(parsed);
     startTransition(() => {
       setData(parsed);
       setSelected(
         [...PRESETS.currents, ...PRESETS.voltage].filter((name) => parsed.series[name]),
       );
+      if (profileClient.name) {
+        setClientName(profileClient.name);
+      }
+      if (profileClient.address) {
+        setSiteAddress(profileClient.address);
+      }
       setWindowRange([0, 1]);
       setStatus(nextStatus);
       setIsDrawerOpen(false);
@@ -1566,6 +1651,25 @@ function escapeCsvCell(value: string | number) {
 
 function slugify(value: string) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
+function getStudyProfileClient(data: ParserResponse) {
+  const client = data.study_profile?.client;
+  const name = client?.name?.trim() ?? "";
+  const address = client?.address;
+
+  if (typeof address === "string") {
+    return { name, address: address.trim() };
+  }
+
+  return {
+    name,
+    address:
+      address?.formatted?.trim() ||
+      [address?.street, [address?.city, address?.state, address?.postal_code].filter(Boolean).join(" ")]
+        .filter(Boolean)
+        .join("\n"),
+  };
 }
 
 const panelStyle: React.CSSProperties = {

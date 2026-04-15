@@ -234,6 +234,27 @@ export function buildClientDashboardHtml(data: ParserResponse, options: ExportOp
       justify-content: space-between;
       flex-wrap: wrap;
     }
+    .hero-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+    }
+    .pdf-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 0 16px;
+      border-radius: 999px;
+      color: #fffaf1;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      font-weight: 800;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      box-shadow: 0 14px 32px rgba(180, 95, 42, 0.22);
+    }
     .eyebrow {
       margin: 0 0 8px;
       text-transform: uppercase;
@@ -485,6 +506,9 @@ export function buildClientDashboardHtml(data: ParserResponse, options: ExportOp
       .two-col {
         grid-template-columns: 1fr;
       }
+      .hero-actions {
+        align-items: flex-start;
+      }
       main {
         width: min(100vw - 16px, 1320px);
       }
@@ -518,7 +542,10 @@ export function buildClientDashboardHtml(data: ParserResponse, options: ExportOp
               <h1>Vista interactiva de solo lectura</h1>
               <p class="subtle">Este archivo mantiene la exploración interactiva del estudio, pero no permite subir archivos FEL ni abrir otras secciones operativas.</p>
             </div>
-            <div class="pill">Generado ${escapeHtml(payload.generatedAt)}</div>
+            <div class="hero-actions">
+              <a class="pdf-link" href="./report.pdf" target="_blank" rel="noopener">Ver reporte PDF</a>
+              <div class="pill">Generado ${escapeHtml(payload.generatedAt)}</div>
+            </div>
           </div>
           <div class="info-stack" style="margin-top:16px;">
             <div class="info-line"><strong>Client</strong><span>${escapeHtml(options.clientName.trim() || "N/D")}</span></div>

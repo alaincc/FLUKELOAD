@@ -1,0 +1,77 @@
+{
+  "client": {
+    "name": "First Harvest",
+    "address": {
+      "street": "1200 S Rogers Circle, Unit 8",
+      "city": "Boca Raton",
+      "state": "FL",
+      "postal_code": "33487",
+      "formatted": "1200 S Rogers Circle, Unit 8\nBoca Raton, FL 33487"
+    }
+  },
+  "panel": {
+    "brand": "Siemens",
+    "panel_type": "P1",
+    "system": {
+      "voltage": "208Y/120V",
+      "phases": 3,
+      "wires": 4
+    },
+    "capacity": {
+      "max_amperage": 250,
+      "main_lug": true,
+      "installed_main_breaker": {
+        "amperage": 200,
+        "series": "Siemens Sentron"
+      }
+    },
+    "identification": {
+      "catalog_number": "P1C42ML250ATS",
+      "serial_number": "42595",
+      "customer_marking": "LPB8",
+      "item_number": "A00090",
+      "location": "D",
+      "date": "2001-12-11"
+    },
+    "technical_specifications": {
+      "short_circuit_rating": {
+        "max": "200000 A RMS @ 480V",
+        "min_configuration": "22000 A RMS"
+      },
+      "conductors": {
+        "temperature_ratings": ["60C", "75C"],
+        "materials": ["Copper", "Aluminum"]
+      }
+    },
+    "compliance": {
+      "nec_articles": ["384-14", "384-15"],
+      "max_circuits_if_lighting_exceeds_10_percent": 42,
+      "usage": [
+        "Service equipment (with main overcurrent protection)",
+        "Distribution panel"
+      ]
+    }
+  },
+  "load_study": {
+    "device": "Fluke 3540 FC",
+    "type": "3 Phase Power Monitor",
+    "duration": {
+      "total": "1 week, 1 day",
+      "start": "2026-03-24T13:04:55",
+      "end": "2026-04-01T16:49:15"
+    },
+    "asset": "SWBD.A",
+    "file_size_kb": 511980
+  },
+  "observations": {
+    "panel_configuration": "Main Lug Panel (MLP)",
+    "main_breaker_note": "Panel rated for 250A but currently limited by a 200A breaker",
+    "system_type": "Commercial three-phase distribution",
+    "wiring": {
+      "type": "THHN",
+      "conduit": "EMT",
+      "phases_colors": ["Black", "Red", "Blue"],
+      "neutral_color": "White"
+    }
+  }
+}
