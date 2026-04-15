@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import shutil
 import subprocess
 import tempfile
@@ -18,14 +19,26 @@ from .parser import parse_fel_file
 
 
 app = FastAPI(title="Fluke 3540 FC Parser API")
-CACHE_DIR = Path(__file__).resolve().parents[1] / "data" / "saved_sessions"
-UPLOAD_TMP_DIR = Path(__file__).resolve().parents[1] / "data" / "tmp_uploads"
-EXPORTS_DIR = Path(__file__).resolve().parents[1] / "data" / "client_exports"
+IS_VERCEL = os.environ.get("VERCEL") == "1"
+DATA_ROOT = Path(os.environ.get("FLUKE_DATA_ROOT") or ("/tmp/flukeload" if IS_VERCEL else Path(__file__).resolve().parents[1] / "data"))
+CACHE_DIR = DATA_ROOT / "saved_sessions"
+UPLOAD_TMP_DIR = DATA_ROOT / "tmp_uploads"
+EXPORTS_DIR = DATA_ROOT / "client_exports"
 COMPANY_LOGO_PATH = Path("/Users/alaincc/Documents/eco_logo.jpg")
+DEFAULT_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "https://flukeload.vercel.app",
+]
+ALLOWED_ORIGINS = [
+    origin.strip()
+    for origin in os.environ.get("ALLOWED_ORIGINS", ",".join(DEFAULT_ALLOWED_ORIGINS)).split(",")
+    if origin.strip()
+]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
